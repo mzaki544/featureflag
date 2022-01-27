@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,5 +32,9 @@ public class FeatureService {
         feature.get().getUsers().add(user.get());
         Feature result = featureRepository.save(feature.get());
         return Optional.ofNullable(result);
+    }
+
+    public List<Feature> getAllEnabledFeatures(Long userId){
+        return featureRepository.findAllByUserId(userId);
     }
 }

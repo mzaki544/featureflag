@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -34,6 +35,15 @@ public class FeatureController {
                                  @PathVariable Long userId,
                                  HttpServletResponse response) {
         Optional<Feature> feature = featureService.enableFeature(featureId,userId);
-        return feature.orElseThrow(()-> {throw new ResponseStatusException(HttpStatus.NOT_MODIFIED,"Resource is not modified");});
+        return feature.orElseThrow(()-> {throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Invalid data");});
+    }
+
+    /*
+     This endpoint allows users to get all enabled and global features.
+     Security is not implemented.
+     */
+    @GetMapping("/feature/{userId}")
+    public List<Feature> getAllEnabledFeatures(@PathVariable Long userId){
+        return featureService.getAllEnabledFeatures(userId);
     }
 }
